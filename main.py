@@ -31,6 +31,7 @@ import logging
 import os
 import pickle
 import urllib
+import json
 
 from apiclient.discovery import build
 from oauth2client.appengine import OAuth2Decorator
@@ -91,7 +92,7 @@ class PlayHandler(webapp.RequestHandler):
         # Now I have my own id, I can do things unauth'd
         # I could continue using my authenticated service,
         # but for example we'll use a second unauth'd one.
-        activities_doc = serviceUnauth.activities().list(userId=me['id'], collection='public').execute(httpUnauth)
+        activities_doc = service.activities().list(userId=me['id'], collection='public').execute(http)
 
         activities = []
         if 'items' in activities_doc:
@@ -105,8 +106,8 @@ class PlayHandler(webapp.RequestHandler):
             top_activity_content = activities_doc['object']['content']
 
         self.response.out.write(
-            template.render(path, {'me': me, 'activities': activities,
-                                   'top_activity_content': top_activity_content}))
+            template.render(path, {'me': me, 'me_json': json.dumps(me), 'activities': json.dumps(activities),
+                                   'top_activity_content': json.dumps(top_activity_content)}))
 
 class LoginHandler(webapp.RequestHandler):
     @decorator.oauth_aware
