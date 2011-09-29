@@ -1720,6 +1720,14 @@ href="http://docs.google.com/feeds/default/private/full/folder%3A12345" title="A
 <ns1:quotaBytesUsed>1000</ns1:quotaBytesUsed>
 <ns1:feedLink rel="http://schemas.google.com/acl/2007#accessControlList" href="https://docs.google.com/feeds/default/private/full/spreadsheet%3Asupercalifragilisticexpealidocious/acl" />
 <ns1:feedLink rel="http://schemas.google.com/docs/2007/revisions" href="https://docs.google.com/feeds/default/private/full/spreadsheet%3Asupercalifragilisticexpealidocious/revisions" />
+<ns0:category scheme="http://schemas.google.com/g/2005/labels" term="http://schemas.google.com/g/2005/labels#starred" label="starred"/>
+<ns0:category scheme="http://schemas.google.com/g/2005/labels" term="http://schemas.google.com/g/2005/labels#viewed" label="viewed"/>
+<ns0:category scheme="http://schemas.google.com/g/2005/labels" term="http://schemas.google.com/g/2005/labels#hidden" label="hidden"/>
+<ns0:category scheme="http://schemas.google.com/g/2005/labels" term="http://schemas.google.com/g/2005/labels#trashed" label="trashed"/>
+<ns0:category scheme="http://schemas.google.com/g/2005/labels" term="http://schemas.google.com/g/2005/labels#mine" label="mine"/>
+<ns0:category scheme="http://schemas.google.com/g/2005/labels" term="http://schemas.google.com/g/2005/labels#private" label="private"/>
+<ns0:category scheme="http://schemas.google.com/g/2005/labels" term="http://schemas.google.com/g/2005/labels#shared-with-domain" label="shared-with-domain"/>
+<ns0:category scheme="http://schemas.google.com/g/2005/labels" term="http://schemas.google.com/g/2005/labels#restricted-download" label="restricted-download"/>
 </ns0:entry>
 """
 
@@ -1732,6 +1740,7 @@ DOCUMENT_LIST_ACL_ENTRY = """<?xml version='1.0' encoding='UTF-8'?>
   <gAcl:scope type='user' value='user@gmail.com'/>
 </entry>"""
 
+
 DOCUMENT_LIST_ACL_WITHKEY_ENTRY = """<?xml version='1.0' encoding='UTF-8'?>
 <entry xmlns="http://www.w3.org/2005/Atom"
        xmlns:gAcl='http://schemas.google.com/acl/2007'>
@@ -1740,6 +1749,21 @@ DOCUMENT_LIST_ACL_WITHKEY_ENTRY = """<?xml version='1.0' encoding='UTF-8'?>
   <gAcl:withKey key='somekey'><gAcl:role value='writer' /></gAcl:withKey>
   <gAcl:scope type='domain' value='example.com' />
 </entry>"""
+
+
+DOCUMENT_LIST_ACL_ADDITIONAL_ROLE_ENTRY = """<?xml version='1.0' encoding='UTF-8'?>
+<entry xmlns="http://www.w3.org/2005/Atom"
+       xmlns:gAcl='http://schemas.google.com/acl/2007'>
+  <category scheme='http://schemas.google.com/g/2005#kind'
+            term='http://schemas.google.com/acl/2007#accessRule'/>
+  <gAcl:additionalRole value='commenter' />
+  <gAcl:withKey key='somekey'>
+    <gAcl:role value='writer' />
+    <gAcl:additionalRole value='commenter' />
+  </gAcl:withKey>
+  <gAcl:scope type='domain' value='example.com' />
+</entry>"""
+
 
 DOCUMENT_LIST_ACL_FEED = """<?xml version='1.0' encoding='UTF-8'?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/"
@@ -1813,6 +1837,20 @@ DOCUMENT_LIST_REVISION_FEED = """<?xml version='1.0' encoding='UTF-8'?>
   <docs:publishOutsideDomain value="false"/>
 </entry>
 </feed>
+"""
+
+DOCUMENT_LIST_METADATA = """
+<entry xmlns="http://www.w3.org/2005/Atom"
+    xmlns:docs="http://schemas.google.com/docs/2007"
+    xmlns:gd="http://schemas.google.com/g/2005"
+    xmlns:gAcl="http://schemas.google.com/acl/2007"
+    gd:etag="W/&quot;AkYNRnc_eSt7ImA9WxBUFks.&quot;">
+  <docs:additionalRoleInfo kind='document'>
+   <docs:additionalRoleSet primaryRole='reader'>
+     <gAcl:additionalRole value='commenter' />
+   </docs:additionalRoleSet>
+  </docs:additionalRoleInfo>
+</entry>
 """
 
 BATCH_ENTRY = """<?xml version='1.0' encoding='UTF-8'?>
@@ -5502,3 +5540,107 @@ ANALYTICS_MGMT_ADV_SEGMENT_FEED = '''
   </entry>
 </feed>
 '''
+
+MULTIDOMAIN_USER_ENTRY = """<?xml version="1.0"?>
+<atom:entry xmlns:atom='http://www.w3.org/2005/Atom' xmlns:apps='http://schemas.google.com/apps/2006'>
+  <apps:property name="password" value="51eea05d46317fadd5cad6787a8f562be90b4446"/>
+  <apps:property name="hashFunction" value="SHA-1"/>
+  <apps:property name="userEmail" value="liz@example.com"/>
+  <apps:property name="firstName" value="Liz"/>
+  <apps:property name="lastName" value="Smith"/>
+  <apps:property name="isAdmin" value="true"/>
+</atom:entry>"""
+
+MULTIDOMAIN_USER_FEED = """<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:openSearch="http://a9.com/-/spec/opensesearchrss/1.0/"
+  xmlns:apps="http://schemas.google.com/apps/2006">
+  <id>https://apps-apis.google.com/a/feeds/user/2.0/example.com</id>
+  <updated>2010-01-26T23:38:13.215Z</updated>
+  <link rel="http://schemas.google.com/g/2005#feed"
+  type="application/atom+xml" href="https://apps-apis.google.com/a/feeds/user/2.0/example.com" />
+  <link rel="http://schemas.google.com/g/2005#post"
+  type="application/atom+xml" href="https://apps-apis.google.com/a/feeds/user/2.0/example.com" />
+  <link rel="self" type="application/atom+xml"
+  href="https://apps-apis.google.com/a/feeds/user/2.0/example.com?start=admin%40example.com" />
+  <openSearch:startIndex>1</openSearch:startIndex>
+  <entry>
+    <id>https://apps-apis.google.com/a/feeds/user/2.0/example.com/admin%40example.com</id>
+    <updated>2010-01-26T23:38:13.210Z</updated>
+    <link rel="self" type="application/atom+xml"
+    href="https://apps-apis.google.com/a/feeds/user/2.0/example.com/admin%40example.com" />
+    <link rel="edit" type="application/atom+xml"
+    href="https://apps-apis.google.com/a/feeds/user/2.0/example.com/admin%40example.com" />
+    <apps:property name="lastName" value="Brown" />
+    <apps:property name="isChangePasswordAtNextLogin" value="false" />
+    <apps:property name="isSuspended" value="false" />
+    <apps:property name="userEmail" value="admin@example.com" />
+    <apps:property name="isAdmin" value="true" />
+    <apps:property name="firstName" value="Joe" />
+    <apps:property name="ipWhitelisted" value="false" />
+  </entry>
+  <entry>
+    <id>https://apps-apis.google.com/a/feeds/user/2.0/example.com/liz%40example.com</id>
+    <updated>2010-01-26T23:38:13.210Z</updated>
+    <link rel="self" type="application/atom+xml"
+    href="https://apps-apis.google.com/a/feeds/user/2.0/example.com/liz%40example.com" />
+    <link rel="edit" type="application/atom+xml"
+    href="https://apps-apis.google.com/a/feeds/user/2.0/example.com/liz%40example.com" />
+    <apps:property name="lastName" value="Smith" />
+    <apps:property name="isChangePasswordAtNextLogin" value="false" />
+    <apps:property name="isSuspended" value="false" />
+    <apps:property name="userEmail" value="liz@example.com" />
+    <apps:property name="isAdmin" value="true" />
+    <apps:property name="firstName" value="Elizabeth" />
+    <apps:property name="ipWhitelisted" value="false" />
+  </entry>
+</feed>"""
+
+MULTIDOMAIN_USER_RENAME_REQUEST = """<?xml version='1.0' encoding='UTF-8'?>
+<entry xmlns='http://www.w3.org/2005/Atom' xmlns:apps='http://schemas.google.com/apps/2006'>
+  <apps:property name='newEmail' value='liz@newexample4liz.com'/>
+</entry>"""
+
+MULTIDOMAIN_ALIAS_ENTRY = """<?xml version='1.0' encoding='UTF-8'?>
+<entry xmlns='http://www.w3.org/2005/Atom' xmlns:apps='http://schemas.google.com/apps/2006'>
+  <id>https://apps-apis.google.com/a/feeds/alias/2.0/gethelp_example.com/helpdesk%40gethelp_example.com</id>
+  <updated>2008-10-17T15:02:45.646Z</updated>
+  <link rel='self' type='application/atom+xml'
+  href='https://apps-apis.google.com/a/feeds/alias/2.0/gethelp_example.com/helpdesk%40gethelp_example.com'/>
+  <link rel='edit' type='application/atom+xml'
+  href='https://apps-apis.google.com/a/feeds/alias/2.0/gethelp_example.com/helpdesk%40gethelp_example.com'/>
+  <apps:property name="userEmail" value="liz@example.com" />
+  <apps:property name="aliasEmail" value="helpdesk@gethelp_example.com" />
+</entry>"""
+
+MULTIDOMAIN_ALIAS_FEED = """<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/" xmlns:apps="http://schemas.google.com/apps/2006">
+  <id>https://apps-apis.google.com/a/feeds/alias/2.0/gethelp_example.com</id>
+  <updated>2010-01-26T23:38:13.215Z</updated>
+  <link rel="http://schemas.google.com/g/2005#feed"
+  type="application/atom+xml" href="https://apps-apis.google.com/a/feeds/alias/2.0/gethelp_example.com" />
+  <link rel="http://schemas.google.com/g/2005#post"
+  type="application/atom+xml" href="https://apps-apis.google.com/a/feeds/alias/2.0/gethelp_example.com" />
+  <link rel="self" type="application/atom+xml"
+  href="https://apps-apis.google.com/a/feeds/alias/2.0/gethelp_example.com?start=helpdesk%40gethelp_example.com" />
+  <openSearch:startIndex>1</openSearch:startIndex>
+  <entry>
+    <id>https://apps-apis.google.com/a/feeds/alias/2.0/gethelp_example.com/helpdesk%40gethelp_example.com</id>
+    <updated>2010-01-26T23:38:13.210Z</updated>
+    <link rel="self" type="application/atom+xml"
+    href="https://apps-apis.google.com/a/feeds/alias/2.0/gethelp_example.com/helpdesk%40gethelp_example.com" />
+    <link rel="edit" type="application/atom+xml"
+    href="https://apps-apis.google.com/a/feeds/alias/2.0/gethelp_example.com/helpdesk%40gethelp_example.com" />
+    <apps:property name="userEmail" value="liz@example.com" />
+    <apps:property name="aliasEmail" value="helpdesk@gethelp_example.com" />
+  </entry>
+  <entry>
+    <id>https://apps-apis.google.com/a/feeds/alias/2.0/gethelp_example.com/support%40gethelp_example.com</id>
+    <updated>2010-01-26T23:38:13.210Z</updated>
+    <link rel="self" type="application/atom+xml"
+    href="https://apps-apis.google.com/a/feeds/alias/2.0/gethelp_example.com/support%40gethelp_example.com" />
+    <link rel="edit" type="application/atom+xml"
+    href="https://apps-apis.google.com/a/feeds/alias/2.0/gethelp_example.com/support%40gethelp_example.com" />
+    <apps:property name="userEmail" value="joe@example.com" />
+    <apps:property name="aliasEmail" value="support@gethelp_example.com" />
+  </entry>
+</feed>"""

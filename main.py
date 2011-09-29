@@ -47,16 +47,32 @@ import gdata.youtube
 import gdata.youtube.service
 import gdata.alt.appengine
 
+import gdata.photos.service
+import gdata.media
+import gdata.geo
+import gdata.calendar.client
+
+
+USER_AGENT=""
+
 #gdocs = gdata.docs.client.DocsClient(source = "gplustimeline")
-client_youtube = gdata.youtube.service.YouTubeService()
-gdata.alt.appengine.run_on_appengine(client_youtube)
+clients = {}
+clients["youtube"] = gdata.youtube.service.YouTubeService()
+#gdata.alt.appengine.run_on_appengine(clients["youtube"])
+
+clients["picasa"] = gdata.photos.service.PhotosService()
+#gdata.alt.appengine.run_on_appengine(clients["picasa"])
+
+clients["calendar"] = gdata.calendar.client.CalendarClient(source="")
+#gdata.alt.appengine.run_on_appengine(clients["calendar"])
+
 
 # The client_id and client_secret are copied from the API Access tab on
 # the Google APIs Console <http://code.google.com/apis/console>
 decorator = OAuth2Decorator(
     client_id=settings.CLIENT_ID,
     client_secret=settings.CLIENT_SECRET,
-    scope = 'https://www.googleapis.com/auth/plus.me' )
+    scope = 'https://www.googleapis.com/auth/plus.me https://picasaweb.google.com/data/ http://gdata.youtube.com https://docs.google.com/feeds/ https://www.google.com/calendar/feeds/')
 
 http = httplib2.Http(memcache)
 httpUnauth = httplib2.Http(memcache)
@@ -114,10 +130,22 @@ class PlayHandler(webapp.RequestHandler):
 
             top_activity_content = activities_doc['object']['content']
 
+        creds = decorator.credentials.to_json()
+        logging.info(decorator.credentials.to_json())
         
-        #youtube
-        feed = client_youtube.GetRecentlyFeaturedVideoFeed()
+        # "token_expiry": "2011-09-29T19:59:53Z"
 
+        token = gdata.gauth.OAuth2Token(client_id=settings.CLIENT_ID, client_secret=settings.CLIENT_SECRET, scope=decorator.flow.scope,
+   user_agent=USER_AGENT, access_token=decorator.credentials.access_token,token_uri=decorator.credentials.token_uri,refresh_token=decorator.credentials.refresh_token)
+
+
+        clients["calendar"] = token.authorize(clients["calendar"])
+        #clients["youtube"] = token.authorize(clients["youtube"])
+        clients["picasa"] = token.authorize(clients["picasa"])
+                
+
+        #youtube
+        feed = clients["youtube"].GetRecentlyFeaturedVideoFeed()
         #todo reformat
         for entry in feed.entry:
             activities.append({
@@ -127,8 +155,16 @@ class PlayHandler(webapp.RequestHandler):
                 "youtube_player":entry.GetSwfUrl(),
                 "published":entry.published.text
             })
+        
 
 
+        feed = clients["calendar"].get_calendar_event_feed()
+        for entry in feed.entry:
+            activities.append({
+                "kind":"calendar#event",
+                "title":entry.title.text,
+                "published":entry.when[0].start
+            })
         
 
 
