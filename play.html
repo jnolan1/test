@@ -75,6 +75,11 @@
 					// act.innerHTML += json[i].title;
 					if (json[i].object)
 					{	
+						if (json[i].object.plusoners)
+						{
+							if (json[i].object.plusoners.totalItems > 0)
+								act.innerHTML += '<b>+' + json[i].object.plusoners.totalItems+ '</b><br/>'
+						}
 						if (json[i].object.content)
 						{					
 							act.innerHTML += '<p style="border : 1px solid #AAF; background-color : #FFF; paddding : 10px">' + json[i].object.content+ '</p>';
