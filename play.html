@@ -34,21 +34,54 @@
 		</div> 
 
 		
-		<div class="box">
+	
 		  <p>Your public activities' content</p>
-		
-		  	<div id='activityContainer'>
-			</div>
+			
+			<div class='row'>
+				<div id='leftCtn' class='columns span7'>
+					
+				</div>
+				<div class='columns span1' id='line'>
+					
+				</div>
+				<div id='rightCtn' class='columns span7'>
+					
+				</div>
 			<script>
 				var json ={{ activities }};
-				var ctn = document.getElementById('activityContainer');
+				var left = document.getElementById('leftCtn');
+				var right = document.getElementById('rightCtn');
+				var lSize = 0;
+				var rSize = 0;
+				
 				var i = 0;
 				while (i < json.length)
 				{
 					var act = document.createElement('div');
-					act.innerHTML = json[i].title;
+					act.innerHTML = '# ' + i + ': ' + json[i].title;
+					if (json[i].kind == 'youtube#video')
+					{
+						act.innerHTML = '# ' + i + ': ' + json[i].title + '<br />' +
+						'<object width="425" height="350">'
+						+ '<param name="movie" value="' + json[i].youtube_player + '"></param>'
+						+'<embed src="' + json[i].youtube_player + 
+						+ '" type="application/x-shockwave-flash" '
+						+'width="425" height="350"></embed></object>';
+					}
 					act.className = 'well';
-					ctn.appendChild(act);
+					act.style.display = 'block';
+					
+					if (rSize < lSize)
+					{
+						right.appendChild(act);
+						rSize += act.offsetHeight;
+					}
+					else
+					{
+						left.appendChild(act);
+						lSize += act.offsetHeight;
+					}
+	
 					++i;
 				}
 			</script>
