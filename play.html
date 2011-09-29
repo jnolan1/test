@@ -92,7 +92,7 @@
 								// ! Images :)
 								if (json[i].object.attachments[j].objectType == 'photo')
 								{
-									act.innerHTML += '<br/><img src="' + json[i].object.attachments[j].image.url + '"/>';
+									act.innerHTML += '<br/><a href="' +  json[i].object.attachments[j].fullImage.url+ '" target="_blank"><img src="' + json[i].object.attachments[j].image.url + '"/></a>';
 								}
 								// ! Articles
 								else if (json[i].object.attachments[j].objectType == 'article')
