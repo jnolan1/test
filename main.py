@@ -63,11 +63,18 @@ serviceUnauth = build("plus", "v1", http=http, developerKey=settings.API_KEY)
 
 class WelcomeHandler(webapp.RequestHandler):
     def get(self):
-        self.redirect(self.request.body + '/play')
+
+        path = os.path.join(os.path.dirname(__file__), 'index.html')
+
+        self.response.out.write(
+            template.render(path, {}))
+
+        #self.redirect(self.request.body + '/play')
 
 class PlayHandler(webapp.RequestHandler):
     @decorator.oauth_aware
     def get(self):
+
         if (not decorator.has_credentials()):
             self.redirect(self.request.body + '/login')
             return
