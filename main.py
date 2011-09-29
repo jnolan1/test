@@ -35,12 +35,21 @@ import json
 
 from apiclient.discovery import build
 from oauth2client.appengine import OAuth2Decorator
-from google.appengine.api import memcache
+
+from google.appengine.api import memcache, users
 from google.appengine.ext import webapp
-from google.appengine.ext.webapp.util import run_wsgi_app
+from google.appengine.ext.webapp.util import run_wsgi_app, login_required
 from google.appengine.ext.webapp import template
 
+import gdata.gauth
+import gdata.docs.client
+import gdata.youtube
+import gdata.youtube.service
+import gdata.alt.appengine
 
+#gdocs = gdata.docs.client.DocsClient(source = "gplustimeline")
+client_youtube = gdata.youtube.service.YouTubeService()
+gdata.alt.appengine.run_on_appengine(client_youtube)
 
 # The client_id and client_secret are copied from the API Access tab on
 # the Google APIs Console <http://code.google.com/apis/console>
@@ -104,6 +113,24 @@ class PlayHandler(webapp.RequestHandler):
             activities_doc = serviceUnauth.activities().get(activityId=activities[0]['id']).execute(httpUnauth)
 
             top_activity_content = activities_doc['object']['content']
+
+        
+        #youtube
+        feed = client_youtube.GetRecentlyFeaturedVideoFeed()
+
+        #todo reformat
+        for entry in feed.entry:
+            activities.append({
+                "kind":"youtube#video",
+                "title":entry.title.text,
+                "verb":"global_featured",
+                "youtube_player":entry.GetSwfUrl(),
+                "published":entry.published.text
+            })
+
+
+        
+
 
         self.response.out.write(
             template.render(path, {'me': me, 'me_json': json.dumps(me), 'activities': json.dumps(activities),
