@@ -74,6 +74,10 @@
 				while (i < json.length)
 				{
 					var act = document.createElement('div');
+					if (json[i].kind == "calendar#event")
+					{
+						act.innerHTML += '<b>' +  json[i].published + ' ' + json[i].title + '</b>';
+					}
 					if (json[i].verb)
 						act.innerHTML += '<b>' +  json[i].verb[0].toUpperCase() + json[i].verb.slice(1) + 'ed</b>';
 					if (json[i].provider) {
