@@ -160,7 +160,6 @@ class PlayHandler(webapp.RequestHandler):
 
         feed = clients["calendar"].get_calendar_event_feed()
         for entry in feed.entry:
-            logging.info()
             activities.append({
                 "kind":"calendar#event",
                 "title":entry.title.text,
