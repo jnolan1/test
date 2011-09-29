@@ -31,7 +31,7 @@ import logging
 import os
 import pickle
 import urllib
-import json
+import simplejson as json
 import re
 
 from apiclient.discovery import build
