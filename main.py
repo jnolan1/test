@@ -39,6 +39,8 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
 
+
+
 # The client_id and client_secret are copied from the API Access tab on
 # the Google APIs Console <http://code.google.com/apis/console>
 decorator = OAuth2Decorator(
