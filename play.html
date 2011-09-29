@@ -127,10 +127,10 @@
 					if (json[i].kind == 'youtube#video')
 					{
 						act.innerHTML +=
-						'<object width="500" height="350">'
+						'<object width="350" height="350">'
 						+ '<param name="movie" value="https://www.youtube.com/v/' + json[i].youtube_player + '?version=3&f=standard&app=youtube_gdata"></param>'
 						+'<embed src="https://www.youtube.com/v/' + json[i].youtube_player + '?version=3&f=standard&app=youtube_gdata" type="application/x-shockwave-flash" '
-						+'width="500" height="350"></embed></object>';
+						+'width="350" height="350"></embed></object>';
 					}
 					act.className = 'well';
 					act.style.display = 'block';
