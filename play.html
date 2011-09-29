@@ -33,17 +33,27 @@
 
 		</div> 
 
+		
 		<div class="box">
 		  <p>Your public activities' content</p>
-		  <p>
-		<table border=0 width=350>
-		  {% for activity in activities %}
-		  <tr valign=top>
-			<td>{{ activity.object.content }}</td>
-		  </tr>
-		  {% endfor %}
-		</table>
-		</p>
+		
+		  	<div id='activityContainer'>
+			</div>
+			<script>
+				var json ={{ activities }};
+				var ctn = document.getElementById('activityContainer');
+				var i = 0;
+				while (i < json.length)
+				{
+					var act = document.createElement('div');
+					act.innerHTML = json[i].title;
+					act.className = 'well';
+					ctn.appendChild(act);
+					++i;
+				}
+			</script>
+		
+		
 		</div>
 
 		<div class="box">
