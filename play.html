@@ -41,8 +41,8 @@
 				<div id='leftCtn' class='columns span7'>
 					
 				</div>
-				<div class='columns span1' id='line'>
-					
+				<div class='columns span1 well' id='line'>
+					&nbsp;
 				</div>
 				<div id='rightCtn' class='columns span7'>
 					
@@ -58,15 +58,45 @@
 				while (i < json.length)
 				{
 					var act = document.createElement('div');
-					act.innerHTML = '# ' + i + ': ' + json[i].title;
+					if (json[i].verb)
+						act.innerHTML += '<b>' +  json[i].verb[0].toUpperCase() + json[i].verb.slice(1) + '</b>';
+					if (json[i].provider)
+						act.innerHTML += ' on <i>' + json[i].provider.title + '</i>' + Date(json[i].published)+ ' <br/>';
+			
+					// act.innerHTML += json[i].title;
+					if (json[i].object)
+					{	
+						if (json[i].object.content)
+						{					
+							act.innerHTML += '<p style="border : 1px solid #AAF; background-color : #FFF; paddding : 10px">' + json[i].object.content+ '</p>';
+						}
+						if (json[i].object.attachments)
+						{
+							var j = 0;
+							while (j < json[i].object.attachments.length)
+							{
+								// ! Images :)
+								if (json[i].object.attachments[j].objectType == 'photo')
+								{
+									act.innerHTML += '<br/><img src="' + json[i].object.attachments[j].image.url + '"/>';
+								}
+								// ! Articles
+								else if (json[i].object.attachments[j].objectType == 'article')
+								{
+									
+								}
+								j++;
+							}
+						}
+					}
 					if (json[i].kind == 'youtube#video')
 					{
 						act.innerHTML = '# ' + i + ': ' + json[i].title + '<br />' +
-						'<object width="425" height="350">'
+						'<object width="500" height="350">'
 						+ '<param name="movie" value="' + json[i].youtube_player + '"></param>'
 						+'<embed src="' + json[i].youtube_player + 
 						+ '" type="application/x-shockwave-flash" '
-						+'width="425" height="350"></embed></object>';
+						+'width="500" height="350"></embed></object>';
 					}
 					act.className = 'well';
 					act.style.display = 'block';
@@ -78,12 +108,22 @@
 					}
 					else
 					{
+						act.style.textAlign = 'right';
 						left.appendChild(act);
 						lSize += act.offsetHeight;
 					}
 	
 					++i;
 				}
+				if (lSize > rSize)
+				{
+					document.getElementById('line').style.height = lSize + 'px';
+				}
+				else
+				{
+					document.getElementById('line').style.height = rSize + 'px';
+				}
+				document.getElementById('line').style.width = "5px";
 			</script>
 		
 		
