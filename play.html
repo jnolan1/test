@@ -1,51 +1,54 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <title>Google+ | Timeline</title>
     <style type=text/css>
       td  { vertical-align: top; padding: 0.5em }
       img { border:0 }
-
       iframe {
-      height: 100%;
-      vertical-align: bottom;
-      width: 100%;
+        height: 100%;
+        vertical-align: bottom;
+        width: 100%;
       }
     </style>
-
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
-
   </head>
   <body>
-    <div class='container'>
-      <h1>Welcome to Timeline+</h1>
+    <div class="topbar-wrapper" style="z-index: 5;">
+      <div class="topbar" data-dropdown="dropdown" >
+        <div class="topbar-inner">
+          <div class="container">
+            <h3><a>Timeline+</a></h3>
+          </div>
+        </div>
+      </div>
+    </div>
 
-		<p>This is a simple app that shows some public activities from your stream.</p>
-      
+    <div class="container">
+      <div class="fbh well">
+        <div class="box" id="header">
+          <div class="me"><img src="{{ me.image.url}}?sz=125"></div>
+        </div>
+        <div class="name"><p>{{ me.displayName }}</p></div>
+        <div class="desc">
+          <h1>Welcome to Timeline+</h1>
+          <p>This is a simple app that shows some public activities from your stream.</p>
+        </div>
+      </div>
 
-		<div class="box">
-		  <center>
-		<b>{{ me.displayName }}</b><br/>
-		<b><img src="{{ me.image.url}}?sz=50"></b>
-		<h2>YOU</h2>
-		  </center>
-
-		</div> 
-
-		
-	
 		  <p>Your public activities' content</p>
-			
+
 			<div class='row'>
 				<div id='leftCtn' class='columns span7'>
-					
+
 				</div>
+
 				<div class='columns span1 well' id='line'>
 					&nbsp;
 				</div>
 				<div id='rightCtn' class='columns span7'>
-					
+
 				</div>
 			<script>
 				var json ={{ activities }};
@@ -53,7 +56,7 @@
 				var right = document.getElementById('rightCtn');
 				var lSize = 0;
 				var rSize = 0;
-				
+
 				var i = 0;
 				while (i < json.length)
 				{
@@ -94,13 +97,13 @@
 						act.innerHTML = '# ' + i + ': ' + json[i].title + '<br />' +
 						'<object width="500" height="350">'
 						+ '<param name="movie" value="' + json[i].youtube_player + '"></param>'
-						+'<embed src="' + json[i].youtube_player + 
+						+'<embed src="' + json[i].youtube_player +
 						+ '" type="application/x-shockwave-flash" '
 						+'width="500" height="350"></embed></object>';
 					}
 					act.className = 'well';
 					act.style.display = 'block';
-					
+
 					if (rSize < lSize)
 					{
 						right.appendChild(act);
@@ -112,7 +115,7 @@
 						left.appendChild(act);
 						lSize += act.offsetHeight;
 					}
-	
+
 					++i;
 				}
 				if (lSize > rSize)
@@ -125,20 +128,8 @@
 				}
 				document.getElementById('line').style.width = "5px";
 			</script>
-		
-		
-		</div>
 
-		<div class="box">
-		  <p>FIRST ACTIVITY CONTENT:</p>
-		  <table border=0>
-		<tr valign=top>
-			  <td>{{ top_activity_content }}</td>
-		</tr>
-		  </table>
-		</div>
-    </div>
+
+		  </div>
 </body>
-
 </html>
-
