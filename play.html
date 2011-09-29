@@ -107,13 +107,13 @@
 					if (rSize < lSize)
 					{
 						right.appendChild(act);
-						rSize += act.offsetHeight;
+						rSize += act.offsetHeight + 22;
 					}
 					else
 					{
 						act.style.textAlign = 'right';
 						left.appendChild(act);
-						lSize += act.offsetHeight;
+						lSize += act.offsetHeight + 22;
 					}
 
 					++i;
