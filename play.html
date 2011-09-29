@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Python Google App Engines Sample</title>
+    <title>Google+ | Timeline</title>
     <style type=text/css>
       td  { vertical-align: top; padding: 0.5em }
       img { border:0 }
@@ -14,46 +14,47 @@
     </style>
 
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
 
   </head>
   <body>
-    <center>
-      <h1>Welcome to +</h1>
+    <div class='container'>
+      <h1>Welcome to Timeline+</h1>
 
-      <p>This is a simple app that shows some public activities from your stream.</p>
-      </center>
+		<p>This is a simple app that shows some public activities from your stream.</p>
+      
 
-    <div class="box">
-      <center>
-	<b>{{ me.displayName }}</b><br/>
-	<b><img src="{{ me.image.url}}?sz=50"></b>
-	<h2>YOU</h2>
-      </center>
+		<div class="box">
+		  <center>
+		<b>{{ me.displayName }}</b><br/>
+		<b><img src="{{ me.image.url}}?sz=50"></b>
+		<h2>YOU</h2>
+		  </center>
 
-    </div> 
+		</div> 
 
-    <div class="box">
-      <p>Your public activities' content</p>
-      <p>
-    <table border=0 width=350>
-      {% for activity in activities %}
-      <tr valign=top>
-        <td>{{ activity.object.content }}</td>
-      </tr>
-      {% endfor %}
-    </table>
-    </p>
+		<div class="box">
+		  <p>Your public activities' content</p>
+		  <p>
+		<table border=0 width=350>
+		  {% for activity in activities %}
+		  <tr valign=top>
+			<td>{{ activity.object.content }}</td>
+		  </tr>
+		  {% endfor %}
+		</table>
+		</p>
+		</div>
+
+		<div class="box">
+		  <p>FIRST ACTIVITY CONTENT:</p>
+		  <table border=0>
+		<tr valign=top>
+			  <td>{{ top_activity_content }}</td>
+		</tr>
+		  </table>
+		</div>
     </div>
-
-    <div class="box">
-      <p>FIRST ACTIVITY CONTENT:</p>
-      <table border=0>
-	<tr valign=top>
-          <td>{{ top_activity_content }}</td>
-	</tr>
-      </table>
-    </div>
-    
 </body>
 
 </html>
