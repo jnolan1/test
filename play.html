@@ -65,11 +65,15 @@
 						act.innerHTML += '<b>' +  json[i].verb[0].toUpperCase() + json[i].verb.slice(1) + 'ed</b>';
 					if (json[i].provider) {
 						var date = new Date(json[i].published);
+						var day = date.getDate();
+						if (day < 10) {
+						  day = '0' + day;
+						}
 						var month = (date.getMonth() + 1);
 						if (month < 10) {
 						  month = '0' + month;
 						}
-						var fmtDate = date.getDate() + '/' + month + '/' + date.getFullYear();
+						var fmtDate = day + '/' + month + '/' + date.getFullYear();
 						act.innerHTML += ' on <i>' + json[i].provider.title + '</i>&nbsp;&nbsp;&nbsp;' + fmtDate + ' <br/>';
 					}
 					// act.innerHTML += json[i].title;
@@ -82,7 +86,7 @@
 						}
 						if (json[i].object.content)
 						{					
-							act.innerHTML += '<p style="border : 1px solid #AAF; background-color : #FFF; paddding : 10px">' + json[i].object.content+ '</p>';
+							act.innerHTML += '<p class="yocontent">' + json[i].object.content+ '</p>';
 						}
 						if (json[i].object.attachments)
 						{
