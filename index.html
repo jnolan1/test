@@ -11,23 +11,32 @@
       width: 100%;
       }
     </style>
-
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
 </head>
 <body>
-
-  <center>
-    <h2>Welcome to Google+ Timeline!</h2>
+ <div class="topbar-wrapper" style="z-index: 5;">
+    <div class="topbar" data-dropdown="dropdown" >
+      <div class="topbar-inner">
+        <div class="container">
+          <h3><a href="#">Google+ | Timeline</a></h3>
+        </div>
+      </div><!-- /topbar-inner -->
+    </div><!-- /topbar -->
+  </div><!-- /topbar-wrapper -->
+  <div class='container'>
+	
+		<div class='well' style='width : 300px; margin : auto; margin-top : 100px'>
+			<center>
+    <h3>Welcome to +</h3>
+    <p>You need to connect with Google+ to see it!</p>
+  
+    <form action="/login" method="post">
+      <div><input type="submit" value="Login" class='btn primary'></div>
+    </form>
   </center>
-
-<div class="box">
-  <center>
-    <h3>You need to login</h3>
-
-    <a href="/play">Please login w/ google to see it!</a>
-
-  </center>
-
-
-</div>
-</body>
+		</div>
+  </div>
+ </body>
