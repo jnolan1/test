@@ -62,10 +62,16 @@
 				{
 					var act = document.createElement('div');
 					if (json[i].verb)
-						act.innerHTML += '<b>' +  json[i].verb[0].toUpperCase() + json[i].verb.slice(1) + '</b>';
-					if (json[i].provider)
-						act.innerHTML += ' on <i>' + json[i].provider.title + '</i>' + Date(json[i].published)+ ' <br/>';
-			
+						act.innerHTML += '<b>' +  json[i].verb[0].toUpperCase() + json[i].verb.slice(1) + 'ed</b>';
+					if (json[i].provider) {
+						var date = new Date(json[i].published);
+						var month = (date.getMonth() + 1);
+						if (month < 10) {
+						  month = '0' + month;
+						}
+						var fmtDate = date.getDate() + '/' + month + '/' + date.getFullYear();
+						act.innerHTML += ' on <i>' + json[i].provider.title + '</i>&nbsp;&nbsp;&nbsp;' + fmtDate + ' <br/>';
+					}
 					// act.innerHTML += json[i].title;
 					if (json[i].object)
 					{	
