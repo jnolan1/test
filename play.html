@@ -56,8 +56,21 @@
 				var right = document.getElementById('rightCtn');
 				var lSize = 0;
 				var rSize = 0;
-
 				var i = 0;
+				
+				json.sort(function (A, B)
+				{
+					var dA = new Date(A.published).getTime();
+					var dB = new Date(B.published).getTime();
+					if (dA > dB)
+						return -1;
+					if (dA == dB)
+						return 0;
+					return 1;
+				});
+				
+				i = 0;
+				
 				while (i < json.length)
 				{
 					var act = document.createElement('div');
@@ -109,7 +122,7 @@
 					}
 					if (json[i].kind == 'youtube#video')
 					{
-						act.innerHTML = '# ' + i + ': ' + json[i].title + '<br />' +
+						act.innerHTML +=
 						'<object width="500" height="350">'
 						+ '<param name="movie" value="' + json[i].youtube_player + '"></param>'
 						+'<embed src="' + json[i].youtube_player +
