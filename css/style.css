@@ -182,3 +182,10 @@ header h1.logo {
   width: 0;
   height: 0;
 }
+
+.yocontent {
+  border: 1px solid #EEE;
+  background-color:#FFF;
+  padding: 10px;
+  border-radius: 3px;
+}
