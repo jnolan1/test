@@ -32,6 +32,7 @@ import os
 import pickle
 import urllib
 import json
+import re
 
 from apiclient.discovery import build
 from oauth2client.appengine import OAuth2Decorator
@@ -44,7 +45,7 @@ from google.appengine.ext.webapp import template
 import gdata.gauth
 import gdata.docs.client
 import gdata.youtube
-import gdata.youtube.service
+import gdata.youtube.client
 import gdata.alt.appengine
 
 import gdata.photos.service
@@ -57,7 +58,7 @@ USER_AGENT=""
 
 #gdocs = gdata.docs.client.DocsClient(source = "gplustimeline")
 clients = {}
-clients["youtube"] = gdata.youtube.service.YouTubeService()
+clients["youtube"] = gdata.youtube.client.YouTubeClient()
 #gdata.alt.appengine.run_on_appengine(clients["youtube"])
 
 clients["picasa"] = gdata.photos.service.PhotosService()
@@ -140,19 +141,20 @@ class PlayHandler(webapp.RequestHandler):
 
 
         clients["calendar"] = token.authorize(clients["calendar"])
-        #clients["youtube"] = token.authorize(clients["youtube"])
+        clients["youtube"] = token.authorize(clients["youtube"])
         clients["picasa"] = token.authorize(clients["picasa"])
                 
 
         #youtube
-        feed = clients["youtube"].GetRecentlyFeaturedVideoFeed()
+        feed = clients["youtube"].get_user_feed(username="sylvinus") #GetYouTubeUserFeed("sylvinus")
         #todo reformat
         for entry in feed.entry:
+
             activities.append({
                 "kind":"youtube#video",
                 "title":entry.title.text,
                 "verb":"global_featured",
-                "youtube_player":entry.GetSwfUrl(),
+                "youtube_player":re.sub(".*video\:","",entry.get_id()), ##todo !!
                 "published":entry.published.text
             })
         

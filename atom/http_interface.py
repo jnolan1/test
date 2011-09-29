@@ -145,6 +145,8 @@ class GenericToken(object):
   def perform_request(self, http_client, operation, url, data=None, 
                       headers=None):
     """For the GenericToken, no Authorization token is set."""
+    import logging
+    logging.info(http_client.request)
     return http_client.request(operation, url, data=data, headers=headers)
 
   def valid_for_scope(self, url):
