@@ -146,14 +146,14 @@ class PlayHandler(webapp.RequestHandler):
                 
 
         #youtube
-        feed = clients["youtube"].get_user_feed(username="sylvinus") #GetYouTubeUserFeed("sylvinus")
+        feed = clients["youtube"].get_user_feed(username="default") #GetYouTubeUserFeed("sylvinus")
         #todo reformat
         for entry in feed.entry:
 
             activities.append({
                 "kind":"youtube#video",
                 "title":entry.title.text,
-                "verb":"global_featured",
+                "verb":"uploaded",
                 "youtube_player":re.sub(".*video\:","",entry.get_id()), ##todo !!
                 "published":entry.published.text
             })
